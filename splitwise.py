@@ -1,36 +1,32 @@
 from collections import defaultdict
-import heapq
-from decimal import Decimal, ROUND_HALF_UP
+from splitwise import Splitwise
 
-table = defaultdict(Decimal)
+
+arr = [['idiot1', 0], ['idiot2', 0], ['idiot3', 0]]
+balance_dict = {}
 
 def calculate(amt, paidFirst, *ppl):
     noOfppl = len(ppl) + 1  # Add 1 for the person who paid (paidFirst)
-    payMe = Decimal(amt) / Decimal(noOfppl)
-    table[paidFirst] += Decimal(amt)
+    payMe = round(amt / noOfppl, 2)
+    if paidFirst not in balance_dict:
+        arr[paidFirst] = 0
+    balance_dict[paidFirst] = amt - payMe
     for person in ppl:
-        table[person] -= payMe
+        if person not in balance_dict:
+            balance_dict[person] = 0
+        balance_dict[person] -= payMe
+    return balance_dict
+	
 
-def settleUp():
-    transactions = []
-    for person, balance in table.items():
-        heapq.heappush(transactions, (abs(balance), person))
+def calculate1(amt, paidFirst, *ppl):
+    noOfppl = len(ppl) + 1  # Add 1 for the person who paid (paidFirst)
+    payMe = round(amt / noOfppl, 2)
+    
+    for idiot in arr:  # Assuming arr is defined outside the function
+        if idiot[0] in ppl:
+            idiot[1] -= payMe
+        if idiot[0] == paidFirst:
+            idiot[1] += amt - payMe
+    
+    return arr  # Assuming arr is defined outside the function
 
-    while len(transactions) > 1:
-        min_debt, debtor = heapq.heappop(transactions)
-        max_credit, creditor = heapq.heappop(transactions)
-
-        settling_amount = min(min_debt, max_credit)
-        print(f"{debtor} owes {settling_amount:.2f} to {creditor}")
-
-        remaining_debt = min_debt - settling_amount
-        remaining_credit = max_credit - settling_amount
-
-        if remaining_debt > 0:
-            heapq.heappush(transactions, (remaining_debt, debtor))
-        if remaining_credit > 0:
-            heapq.heappush(transactions, (remaining_credit, creditor))
-
-# Example usage
-calculate(5, "idiot1", "idiot2", "idiot3")
-settleUp()
