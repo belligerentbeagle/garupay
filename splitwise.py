@@ -37,15 +37,17 @@ def calculate1(amt, paidFirst, *ppl):
 
 def settleUp(arr):
     biggestDebt = min(arr, key=lambda x: x[1])
+    pos = max(arr, key=lambda x: x[1])
     print(biggestDebt)
     output = []
     for ppl in arr:
-        if ppl[0] == biggestDebt[0]:
+        if ppl[0] == biggestDebt[0] or ppl[0] == pos[0]:
             continue
+
         if ppl[1] < 0:
             print(ppl[0] + " gets from " + biggestDebt[0] + " $" + str(abs(ppl[1])))
             # output.append([biggestDebt[0], ppl[0], abs(ppl[1])])
-            output.append([ppl[0], biggestDebt[0], abs(ppl[1])])
+            output.append([ppl[0], pos[0], abs(ppl[1])])
         elif ppl[1] > 0:
             print(biggestDebt[0] + " gets from " + ppl[0] + " $" + str(ppl[1]))
             # output.append([ppl[0], biggestDebt[0], abs(ppl[1])])
