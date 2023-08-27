@@ -35,7 +35,7 @@ from datetime import datetime, timezone
 
 url = "https://api-m.sandbox.paypal.com/v1/payments/payouts"
 
-def main(receiptient_number):
+def main(receiptient_number, amount):
     ##Process
 
     # Get the current timestamp in ISO 8601 format with timezone information
@@ -62,7 +62,7 @@ def main(receiptient_number):
         {
         "recipient_type": "PHONE",
         "amount": {
-            "value": "20.00",
+            "value": amount,
             "currency": "SGD"
         },
         "note": "Thanks for your support!",
@@ -82,4 +82,4 @@ def main(receiptient_number):
     print(response.text)
 
 if __name__ == "__main__":
-    main(receiptient_number)
+    main(receiptient_number, amount)
