@@ -35,7 +35,7 @@ from datetime import datetime, timezone
 
 url = "https://api-m.sandbox.paypal.com/v1/payments/payouts"
 
-def main(receiptient_number, amount):
+def main(amount, receipient_email):
     ##Process
 
     # Get the current timestamp in ISO 8601 format with timezone information
@@ -48,27 +48,27 @@ def main(receiptient_number, amount):
         "email_message": "You have received a payout! Thanks for using our service!"
     },
     "items": [
-        # {
-        # "recipient_type": "EMAIL",
-        # "amount": {
-        #     "value": "10.00",
-        #     "currency": "SGD"
-        # },
-        # "note": "Thanks for your patronage!",
-        # "sender_item_id": "201403140001",
-        # "receiver": "sb-9o77p27200738@personal.example.com",
-        # "notification_language": "en-US"
-        # },
         {
-        "recipient_type": "PHONE",
+        "recipient_type": "EMAIL",
         "amount": {
             "value": amount,
             "currency": "SGD"
         },
-        "note": "Thanks for your support!",
-        "sender_item_id": "201403140002",
-        "receiver": receiptient_number,
-        }
+        "note": "Thanks for your patronage!",
+        "sender_item_id": "201403140001",
+        "receiver": receipient_email,
+        "notification_language": "en-US"
+        },
+        # {
+        # "recipient_type": "PHONE",
+        # "amount": {
+        #     "value": amount,
+        #     "currency": "SGD"
+        # },
+        # "note": "Thanks for your support!",
+        # "sender_item_id": "201403140002",
+        # "receiver": receipient_number,
+        # }
     ]
     })
     headers = {
@@ -82,4 +82,4 @@ def main(receiptient_number, amount):
     print(response.text)
 
 if __name__ == "__main__":
-    main(receiptient_number, amount)
+    main(amount, receipient_email)
