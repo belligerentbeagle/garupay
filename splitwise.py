@@ -16,6 +16,15 @@ balance_dict = {}
 #             balance_dict[person] = 0
 #         balance_dict[person] -= payMe
 #     return balance_dict
+
+def payMe(amt, you, me):
+    for ppl in arr: 
+        if ppl[0] == you:
+            ppl[1] -= amt
+        if ppl[0] == me:
+            ppl[1] += amt
+    return amt
+        
 	
 
 def calculate1(amt, paidFirst, *ppl):
