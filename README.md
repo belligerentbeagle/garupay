@@ -1,4 +1,4 @@
-#GaruPay
+# GaruPay
 
 ## Inspiration
 The inspiration behind GaruPay comes from multiple issues we’ve all faced before — settling bills after a night out is impossible, with multiple parties each forgetful or lazy. Getting everyone in the group to pay up efficiently and accurately and tracking it also takes tremendous effort, and often gives rise to awkward conversations when somebody chases after his friend to pay up. These troubles sound so easily avoidable, and yet we haven’t encountered a hugely effective solution that truly targets the pain points surrounding inconvenience.
