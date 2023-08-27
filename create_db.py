@@ -14,13 +14,25 @@ cur.execute("CREATE TABLE IF NOT EXISTS state_manager ("
             ")")
 
 
+cur.execute("CREATE TABLE IF NOT EXISTS friends ("
+            "name VARCHAR(50), "
+            "username VARCHAR(50), "
+            "chat_id VARCHAR(100),"
+            "UNIQUE (name, username, chat_id)"
+            ")")
+
 cur.execute("CREATE TABLE IF NOT EXISTS transactions ("
-            "from_user_id VARCHAR(30), "
-            "from_username VARCHAR(50), "
-            "to_user_id VARCHAR(30), "
-            "to_username VARCHAR(50), "
+            "from_user_id VARCHAR(20),"
+            "to_user_id VARCHAR(20),"
             "chat_id VARCHAR(100),"
             "amount FLOAT,"
             "date_updated VARCHAR(20),"
             "has_paid INTEGER"
+            ")")
+
+cur.execute("CREATE TABLE IF NOT EXISTS users ("
+            "username VARCHAR(50), "
+            "user_id VARCHAR(50), "
+            "email VARCHAR(50),"
+            "UNIQUE (user_id) "
             ")")
