@@ -16,10 +16,10 @@ GaruPay links well to a payment API (we used PayPal for now) then helps make the
 
 The root problem we want to target is convenience. Compared to previous attempts to improve peer-to-peer payment tracking, GaruPay is vastly superior in convenience through easy setup, flexible input, and quick payments.
 
-##How we built it
+## How we built it
 Telegram, being widely used by Singaporeans, was chosen to be the user interface for best convenience. We naturally had to learn and use the Telegram API, and design its query and logic structure. To allow for flexible inputs and make sense of these texts, OpenAI was also used and integrated into the Python program structured for Telegram to query. We also used PayPal and successfully built a working payment process that seamlessly occurs with the click of a button on Telegram. MySQL was used to store session history to enable customised answers from OpenAI.
 
-##Challenges faced
+## Challenges faced
 We knew Telegram was the way to go for greatest convenience, but none of us had built a Telegram Bot before. Guan Quan swiftly picked up the API, and was able to make a dummy bot within an hour. However, things got scarier as the bot required more and more features, and a few of us worked late into the night to debug and implement our vision. In the end, the GaruPay interface is successfully put into a Telegram Bot, which is nice.
 
 OpenAI provides a developer-friendly API, which was incredible fast to learn and set up. But to integrate with the structure of our program, geared for a Telegram Bot to query, was significantly more difficult. This added to the complexity of debugging whenever the Python program behaves unexpectedly.
