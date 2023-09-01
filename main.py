@@ -17,7 +17,7 @@ cnx = mysql.connector.connect(user="root",
 cur = cnx.cursor()
 cnx.autocommit = True
 
-TOKEN = os.environ.get("TELEGRAM_TOKEN_KEY", "6399385307:AAGRq0zwoqVWO7GRSPAm8VeOKJ1aeu9UvJU")
+TOKEN = os.environ.get("TELEGRAM_TOKEN_KEY", "")
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -61,7 +61,6 @@ def user_input(update: Update, context: CallbackContext):
 
     elif state == 1:
         # getting manual messages:
-        print("MANUAL MSG...", message)
         pass
     elif state == 2:
         if message.lower() == "yes":
@@ -115,11 +114,10 @@ def user_input(update: Update, context: CallbackContext):
                     else:
                         context.bot.send_message(chat_id, text=f"It seems like {name} has not been mapped yet. Please "
                                                                f"map it at /set_names first.")
-                print(tmpList, "-==============================")
                 splitW = settleUp(tmpList)
-                print(splitW, "********************************")
                 for fromUser, toUser, amount in splitW:
-                    cur.execute("INSERT INTO transactions VALUES (%s, %s, %s, %s, %s, %s)", (fromUser, toUser, chat_id, amount, str(datetime.utcnow()).split(".")[0], 0))
+                    cur.execute("INSERT INTO transactions VALUES (%s, %s, %s, %s, %s, %s)",
+                                (fromUser, toUser, chat_id, amount, str(datetime.utcnow()).split(".")[0], 0))
 
                 reply_markup = ReplyKeyboardMarkup([
                     [KeyboardButton("Yes", callback_data=f"confirm_ai:yes"),
@@ -205,11 +203,9 @@ def settle_bills(update: Update, context: CallbackContext):
     chat_id = update.message.chat_id
     cur.execute("SELECT from_user_id, to_user_id, amount FROM transactions WHERE chat_id=%s AND has_paid=0", (chat_id,))
     x = cur.fetchall()
-    print(x)
     for from_user_id, to_user_id, amount in x:
         cur.execute("SELECT email FROM users WHERE user_id=%s", (to_user_id,))
         email = cur.fetchone()[0]
-
         settlepayment(amount, email)
 
         cur.execute("UPDATE transactions SET has_paid=1 WHERE chat_id=%s AND has_paid=0", (chat_id,))
@@ -283,15 +279,16 @@ def bot_typing(bot, chat_id):
     """
     bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
 
-# def stop(update: Update, context: CallbackContext):
-#     """
-#     When user stops the bot
-#     """
-#     bot_typing(context.bot, update.message.chat_id)
-#     user = update.message.from_user
-#     logger.info("User %s canceled the conversation.", user.first_name)
-#     update.message.reply_text("stop", reply_markup=ReplyKeyboardRemove())
-#     return ConversationHandler.END
+
+def stop(update: Update, context: CallbackContext):
+    """
+    When user stops the bot
+    """
+    bot_typing(context.bot, update.message.chat_id)
+    user = update.message.from_user
+    logger.info("User %s canceled the conversation.", user.first_name)
+    update.message.reply_text("stop", reply_markup=ReplyKeyboardRemove())
+    return ConversationHandler.END
 
 
 def main():
@@ -306,7 +303,7 @@ def main():
     dispatcher.add_handler(CommandHandler("register", register))
     dispatcher.add_handler(CommandHandler("set_names", set_names))
     dispatcher.add_handler(MessageHandler(Filters.text, user_input))
-    # dispatcher.add_error_handler(prevent_error)
+    dispatcher.add_error_handler(prevent_error)
     updater.start_polling()
 
 
