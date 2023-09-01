@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = "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"
+openai.api_key = "INSERT HERE"
 messages = [
     {"role": "system", "content": "You are a kind helpful assistant."},
 ]
@@ -16,20 +16,22 @@ MESSAGE_0 = "User : let me give you a situation, and you help to settle up who o
 messages.append({"role": "user", "content": MESSAGE_0})
 chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
 reply = chat.choices[0].message.content
-print(reply)
 
 MESSAGE_1 = "User : let me give you another situation. A owes me $5. So when settling up, A should owes $5, while I " \
             "owes -$5. The output should be {'A': 5, 'Me': -5}."
 messages.append({"role": "user", "content": MESSAGE_1})
 chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
 reply = chat.choices[0].message.content
-print(reply)
 
-MESSAGE_1 = "User : I owe Gab $5. I owe Ruiheng $20. The output should be {'Gab': -5, 'Ruiheng': '-20', 'Me': 25}."
-messages.append({"role": "user", "content": MESSAGE_1})
+MESSAGE_2 = "User : I owe Gab $5. I owe Ruiheng $20. The output should be {'Gab': -5, 'Ruiheng': '-20', 'Me': 25}."
+messages.append({"role": "user", "content": MESSAGE_2})
 chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
 reply = chat.choices[0].message.content
-print(reply)
+
+
+MESSAGE_3 = "User : I owe Sam $12. The output should be {'Sam': '-12', 'Me': 12}. Remember this."
+messages.append({"role": "user", "content": MESSAGE_3})
+chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
 
 
 def query_openai(message):
@@ -39,7 +41,6 @@ def query_openai(message):
     chat = openai.ChatCompletion.create(
         model="gpt-3.5-turbo", messages=messages
     )
-
     reply = chat.choices[0].message.content
     print(f"ChatGPT: {reply}")
     messages.append({"role": "assistant", "content": reply})
